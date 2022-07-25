@@ -8,7 +8,6 @@
 #include <ctype.h>
 #include <conio.h>
 #include "mat_funcs.h"
-#include "structure.h"
 
 
 void main(void){

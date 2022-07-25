@@ -4,7 +4,7 @@
 #include <conio.h>
 #include "structure.h"
 
-int input_matrix(struct matrix *mat){
+int* input_matrix(struct matrix *mat){
 	mat->flagHaveValues = 1;
 	
 	fflush(stdin);
