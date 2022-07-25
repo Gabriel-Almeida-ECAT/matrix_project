@@ -2,28 +2,20 @@
 #include <stdlib.h>
 #include <math.h>
 #include <conio.h>
+#include "structure.h"
 
-struct matrix{
-	int rows;
-	int cols;
-	int flagHaveValues;
-	int flagSquare;
-	double *values;
-};
-
-void input_matrix(struct matrix *mat){
+int input_matrix(struct matrix *mat){
 	mat->flagHaveValues = 1;
 	
-	int n;
 	fflush(stdin);
 	printf("\nNumber rows := ");
-	scanf("%d", &n);
-	mat->rows = n;
+	scanf("%d", &mat->rows);
 	
 	fflush(stdin);	
 	printf("Number colums := ");
 	scanf("%d", &mat->cols);
 	
+	int matSize[2] = {mat->rows, mat->cols}; 
 	
 	mat->values = calloc((mat->cols)*(mat->rows), sizeof(double));
 	
@@ -36,6 +28,7 @@ void input_matrix(struct matrix *mat){
 		}
 	}
 	
+	return matSize;
 	//free(mat->values);
 }
 

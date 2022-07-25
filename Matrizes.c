@@ -8,6 +8,7 @@
 #include <ctype.h>
 #include <conio.h>
 #include "mat_funcs.h"
+#include "structure.h"
 
 
 void main(void){
@@ -20,27 +21,26 @@ void main(void){
 	for(;;){
 		puts("-------------------------------------------------\n");
 		puts("-= Algoritmo de Operações Matriciais =-\n");
-		puts("É possivel com esse programa fazer a leitura e operações");
-		puts("Básicas de matrizes, soma multriplicação, cálculo do");
+		puts("É possivel com esse programa fazer leitura e operações");
+		puts("basicas com matrizes como soma multriplicação, cálculo do");
 		puts("determinante etc. Ficara disponivel ao final de toda operação");
-		puts("uma Matriz salva é mamória (enquanto aberto o programa),");	
-		puts("possibilitando multiplas operações (em sequencia)");
-		puts("com a mesma matriz.\n");	
+		puts("uma opcao de salvar a matriz em mamória (enquanto aberto o programa),");	
+		puts("possibilitando multiplas operações seguidas com a mesma matriz.\n");
 		puts("-------------------------------------------------\n");
 		
 		/*Na função de atribuição da matrixMemoria fazer a alocação*/
-		puts("Matriz em mámoria: ");
-		if(matMemory.flagHaveValue){
-			for(i=0; i<matMemory.rows: i++){
+		puts("Matriz em memoria: ");
+		if(matMemory.flagHaveValues){
+			for(i=0; i<matMemory.rows ; i++){
 				printf("| ");
 				for(j=0; i<matMemory.cols; i++){
-					printf(" %d ", *(matMemory.values + ( i * matMemory.rows) + j))	
+					printf(" %d ", *(matMemory.values + ( i * matMemory.rows) + j));	
 				}
 				printf(" |");
 				printf("\n");
 			}
 		}
-		else printf("empty.\n\n");
+		else printf(" empty.\n\n");
 		
 		do{
 			puts("|| MENU SELECAO - Digite a operacao deseja ||\n");
@@ -79,14 +79,19 @@ void main(void){
 	
 		/*printf("\n%d\n", cin);*/
 		switch(cin){
-//			case 1: /*-=|  |=-*/
-//				printf("\n=|  |=\n\n");
-//				
-//				
-//				puts("\nPressione enter para continuar.");
-//				fflush(stdin);
-//				while(getch() != '\r');
-//			break;
+			case 1: /*-=| Leitura Matriz Memória / Info. |=-*/
+				printf("\n=| Leitura Matriz Memória | Info. |=\n\n");
+				
+				//int numRows = matMemory.rows, numCols = matMemory.cols;
+				int *matSize;
+				matSize = input_matrix(&matMemory);
+				
+				print_mnatrix(matMemory.values, matSize[0], matSize[1]);
+				
+				puts("\nPressione enter para continuar.");
+				fflush(stdin);
+				while(getch() != '\r');
+			break;
 //
 //			case 2: /*=|  |=*/
 //				{
