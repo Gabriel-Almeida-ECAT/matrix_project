@@ -78,14 +78,15 @@ void main(void){
 	
 		/*printf("\n%d\n", cin);*/
 		switch(cin){
-			case 1: /*-=| Leitura Matriz Memória / Info. |=-*/
+			case 1: /*-=| Leitura Matriz Memoria / Info. |=-*/
 				printf("\n=| Leitura Matriz Memória | Info. |=\n\n");
 				
 				//int numRows = matMemory.rows, numCols = matMemory.cols;
-				int *matSize;
-				matSize = input_matrix(&matMemory);
+				input_matrix(&matMemory);
 				
-				print_mnatrix(matMemory.values, matSize[0], matSize[1]);
+				print_matrix(matMemory.values, matMemory.rows, matMemory.cols);
+				
+				free(matMemory.values);
 				
 				puts("\nPressione enter para continuar.");
 				fflush(stdin);
@@ -131,7 +132,7 @@ void main(void){
 					puts("Digite a Matriz: ");
 					input_matrix(&mat1);
 					
-					if(mat1.cols != mat.rows) puts("Matriz invalida!");
+					if(mat1.cols != mat1.rows) puts("Matriz invalida!");
 					else printf("\n# Determinante = %.4lf", matrix_det(mat1.values, mat1.cols));
 					
 //					puts("Gostaria de salvar a matriz em memória?[S/N]: ");

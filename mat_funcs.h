@@ -28,8 +28,7 @@ int* input_matrix(struct matrix *mat){
 		}
 	}
 	
-	return matSize;
-	//free(mat->values);
+	/*free(mat->values);*/
 }
 
 void print_matrix(double *values, int numRows, int numCols){
