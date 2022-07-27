@@ -46,6 +46,19 @@ void print_matrix(double *values, int numRows, int numCols){
 	}
 }
 
+/*Soma de matrizes*/
+void somaVets(int size_rows, int size_cols, matrix *matriz_1, matrix *matriz_2, matrix *matriz_resultado){
+	int i, j;
+		
+	for(j=0;j<n;j++){
+		for(i=0;i<a;i++){
+			//*(vetor_resultado+j) += *((vetores_soma + i) + j ); ta errado, pq eu tentei isso?
+			//*(vetor_resultado+j) += vetores_soma[i][j]; Não funciona
+			*(vetor_resultado+j) += *(vetores_soma + ( i * n ) + j);
+		}
+	}
+}
+
 //void save_in_matMemory(){
 //	fazer a alocação do espaço da matriz memória aqui.
 //}
@@ -54,6 +67,8 @@ void print_matrix(double *values, int numRows, int numCols){
 //		
 //}
 
+
+/*Calculo determinante de uma matriz*/
 float matrix_det(double *mat, int ord){
 	int ind, i, j;
 	double det=0, *mat2;

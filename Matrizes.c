@@ -86,23 +86,41 @@ void main(void){
 				
 				print_matrix(matMemory.values, matMemory.rows, matMemory.cols);
 				
-				free(matMemory.values);
-				
 				puts("\nPressione enter para continuar.");
 				fflush(stdin);
 				while(getch() != '\r');
 			break;
-//
-//			case 2: /*=|  |=*/
-//				{
-//					printf("\n=|  |=\n\n");
-//					
-//					
-//					puts("\nPressione enter para continuar.");
-//					fflush(stdin);
-//					while(getch() != '\r');
-//				}
-//			break;
+
+			case 2: /*=| Soma Matrizes |=*/
+				{
+					printf("\n=| Soma Matrizes |=\n\n");
+					matrix result, mat1, mat2;
+					
+					puts("= Matriz 1:")
+					printf("\nUsar matriz em memoria [S/N]: ");
+					if(input_SN() == 'N') input_matrix(&mat1);
+					else mat1 = matMemory;
+					
+					puts("\n= Matriz 2:")
+					printf("\nUsar matriz em memoria [S/N]: ");
+					if(input_SN() == 'N'){
+						input_matrix(&mat2);
+						if(mat1.rows == mat2.rows || mat1.cols == mat2.cols){
+							
+						}
+						else puts("\nResultado = Idefinido.");
+					} 
+					puts("implementar func de multiplicação por escalar e multiplicar matmemory por 2");
+					
+					
+					free(mat1.values);
+					free(mat2.values);
+						
+					puts("\nPressione enter para continuar.");
+					fflush(stdin);
+					while(getch() != '\r');
+				}
+			break;
 //
 //			case 3: /*=|  |=*/
 //				printf("\n=|  |=\n\n");
