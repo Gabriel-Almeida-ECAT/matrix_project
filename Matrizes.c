@@ -94,21 +94,23 @@ void main(void){
 			case 2: /*=| Soma Matrizes |=*/
 				{
 					printf("\n=| Soma Matrizes |=\n\n");
-					matrix result, mat1, mat2;
+					puts("= Quantidade de matrizes para somar:");
+					int qtdM, ind;
+					scanf("d", &qtdM);
 					
-					puts("= Matriz 1:")
-					printf("\nUsar matriz em memoria [S/N]: ");
-					if(input_SN() == 'N') input_matrix(&mat1);
-					else mat1 = matMemory;
+					matrix resultMat, matSoma[qtd];
 					
-					puts("\n= Matriz 2:")
 					printf("\nUsar matriz em memoria [S/N]: ");
 					if(input_SN() == 'N'){
-						input_matrix(&mat2);
-						if(mat1.rows == mat2.rows || mat1.cols == mat2.cols){
-							
+						for(ind=0; ind<qtdM; ind++){
+							printf("\n= Matriz %i:", ind + 1);
+							input_matrix(&matSoma[ind]);
+							if(ind > 0 && (matSoma[ind].rows != matSoma[ind].rows || matSoma[ind-1].cols != matSoma[ind-1].cols) )
+								puts("\nResultado = Idefinido.");						
+							else{
+								resultMat();
+							}
 						}
-						else puts("\nResultado = Idefinido.");
 					} 
 					puts("implementar func de multiplicação por escalar e multiplicar matmemory por 2");
 					
