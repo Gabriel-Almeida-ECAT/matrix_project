@@ -2,17 +2,19 @@
 #include <stdlib.h>
 #include <math.h>
 #include <conio.h>
+#include <ctype.h>
 #include "structure.h"
 
-int* input_matrix(struct matrix *mat){
+
+int input_matrix(struct matrix *mat){
 	mat->flagHaveValues = 1;
 	
 	fflush(stdin);
-	printf("\nNumber rows := ");
+	printf("\tNumber rows := ");
 	scanf("%d", &mat->rows);
 	
 	fflush(stdin);	
-	printf("Number colums := ");
+	printf("\tNumber colums := ");
 	scanf("%d", &mat->cols);
 	
 	int matSize[2] = {mat->rows, mat->cols}; 
@@ -23,7 +25,7 @@ int* input_matrix(struct matrix *mat){
 	puts("");
 	for(i=0; i<mat->rows; i++){
 		for(j=0; j<mat->cols; j++){
-			printf("i%dj%d := ", i+1, j+1);
+			printf("\ti%dj%d := ", i+1, j+1);
 			scanf("%lf", (mat->values + (i * mat->cols) + j) );
 		}
 	}
@@ -31,45 +33,46 @@ int* input_matrix(struct matrix *mat){
 	/*free(mat->values);*/
 }
 
-void print_matrix(double *values, int numRows, int numCols){
-	puts("");
-//	printf("\nNumber rows = %d\n", numRows);
-//	printf("Number colums = %d\n\n", numCols);
-	int i, j;
-	for(i=0; i<numRows; i++){
-		printf("| ");
-		for(j=0; j<numCols; j++){
-			printf(" %6.3lf ", *(values + ( i * numCols) + j));
+void print_matrix(struct matrix *mat){
+	if(mat->flagHaveValues){
+		puts("");
+		int i, j, numRows = mat->rows, numCols = mat->cols;
+		for(i=0; i<numRows; i++){
+			printf("| ");
+			for(j=0; j<numCols; j++){
+				printf(" %6.3lf ", *(mat->values + ( i * numCols) + j));
+			}
+			printf("  |");
+			printf("\n\n");
 		}
-		printf("  |");
-		printf("\n\n");
 	}
+	else printf(" empty.\n\n");
 }
 
 /*Soma de matrizes*/
-void somaVets(int size_rows, int size_cols, matrix *matriz_1, matrix *matriz_2, matrix *matriz_resultado){
-	int i, j;
-		
-	for(j=0;j<n;j++){
-		for(i=0;i<a;i++){
-			//*(vetor_resultado+j) += *((vetores_soma + i) + j ); ta errado, pq eu tentei isso?
-			//*(vetor_resultado+j) += vetores_soma[i][j]; N„o funciona
-			*(vetor_resultado+j) += *(vetores_soma + ( i * n ) + j);
+void sum_matrix(int qtdMatrix, int sizeRows, int sizeCols, struct matrix matValues[], struct matrix *matResult){
+	int iterValues, iterMat;
+	int qtdValues = sizeRows * sizeCols;
+	//puts("in func sum");
+	for(iterValues=0; iterValues<qtdValues; iterValues++){
+		//puts("in loop itervalues");
+		for(iterMat=0; iterMat<qtdMatrix; iterMat++){
+			//puts("in loop itermat");
+			//print_matrix(&matValues[iterMat]);
+			//printf(" %lf ", matValues[iterMat].values[iterValues]);
+			if(!iterMat) matResult->values[iterValues] = matValues[iterMat].values[iterValues];
+			else matResult->values[iterValues] += matValues[iterMat].values[iterValues];
 		}
 	}
+	matResult->flagHaveValues = 1;
 }
-
-//void save_in_matMemory(){
-//	fazer a alocaÁ„o do espaÁo da matriz memÛria aqui.
-//}
 
 //void matrix_sum(struct matrix mat1, struct matrix mat2, struct matrix metRes){
 //		
 //}
 
-
-/*Calculo determinante de uma matriz*/
-float matrix_det(double *mat, int ord){
+/*Calculo determinante de uma matriz -> tem que ajusatr essa funÁ„o pra funcionar com as structs*/ 
+double matrix_det(double *mat, int ord){
 	int ind, i, j;
 	double det=0, *mat2;
 
@@ -84,8 +87,8 @@ float matrix_det(double *mat, int ord){
 			j2 = 0;
 			for(j=0; j<ord; j++){
 				if(j==ind) continue; 						/*skipping the current collum -> mat2 recives a matriz of 'ord-1' order*/
-				*(mat2+(i2*(ord-1))+j2) = *(mat+(i*ord)+j); /*atribuiÁ„o de mat2 -> n„o posso utilizar i e j para a mesma*/
-				j2 += 1;									/*Pois sen„o ira pular as linhas e colunas dela tambÈm.*/
+				*(mat2+(i2*(ord-1))+j2) = *(mat+(i*ord)+j); /*atribuiÁ„o de mat2 -> n√£o posso utilizar i e j para a mesma*/
+				j2 += 1;									/*Pois sen„o ira pular as linhas e colunas dela tamb√©m.*/
 			}
 			i2 += 1;
 		}

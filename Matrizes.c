@@ -1,5 +1,5 @@
-/* Programa de Operação de Matrizes
-- Autor: Gabriel Almeida - ECAT_IFAM - CMDI - mar 2022*/
+/*- Autor: Gabriel Almeida - ECAT_IFAM - CMDI - mar 2022*/
+/* Programa de Operações de Matrizes*/
 
 #include <stdio.h>
 #include <string.h>
@@ -19,39 +19,28 @@ void main(void){
 	
 	for(;;){
 		puts("-------------------------------------------------\n");
-		puts("-= Algoritmo de Operações Matriciais =-\n");
-		puts("É possivel com esse programa fazer leitura e operações");
-		puts("basicas com matrizes como soma multriplicação, cálculo do");
-		puts("determinante etc. Ficara disponivel ao final de toda operação");
-		puts("uma opcao de salvar a matriz em mamória (enquanto aberto o programa),");	
-		puts("possibilitando multiplas operações seguidas com a mesma matriz.\n");
+		puts("-= Algoritmo de operacoes Matriciais =-\n");
+		puts("E possivel com esse programa fazer leitura e operacoes");
+		puts("basicas com matrizes como soma multriplicao, calculo do");
+		puts("determinante etc. Ficara disponivel ao final de toda operacoes");
+		puts("uma opcao de salvar a matriz em mamoria (enquanto aberto o programa),");	
+		puts("possibilitando multiplas operacoes seguidas com a mesma matriz.\n");
 		puts("-------------------------------------------------\n");
 		
-		/*Na função de atribuição da matrixMemoria fazer a alocação*/
-		puts("Matriz em memoria: ");
-		if(matMemory.flagHaveValues){
-			for(i=0; i<matMemory.rows ; i++){
-				printf("| ");
-				for(j=0; i<matMemory.cols; i++){
-					printf(" %d ", *(matMemory.values + ( i * matMemory.rows) + j));	
-				}
-				printf(" |");
-				printf("\n");
-			}
-		}
-		else printf(" empty.\n\n");
+		puts("# Matriz em memoria =  ");
+		print_matrix(&matMemory);
 		
 		do{
 			puts("|| MENU SELECAO - Digite a operacao deseja ||\n");
-			puts("[1] - Leitura Matriz Memória / Info."); /*Mostar a atual matriz salva e perguntar se deseja sobreescrever*/
+			puts("[1] - Leitura Matriz Memoria / Info."); /*Mostar a atual matriz salva e perguntar se deseja sobreescrever*/
 			puts("[2] - Soma de Matrizes.");
-			puts("[3] - Multiplicação / Divisão por escalar.");
-			puts("[4] - Multiplicação de Matrizes.");
+			puts("[3] - Multiplicao / Divisao por escalar.");
+			puts("[4] - Multiplicao de Matrizes.");
 			puts("[5] - Determinante");
 			puts("[6] - Matriz Transposta.");
 			puts("[7] - Matriz Inversa.");
 			puts("[8] - Matriz Adjunta");
-			puts("[9] - Resolução de Sistemas");
+			puts("[9] - Resolucao de Sistemas");
 			puts("[10] - [...]");
 			puts("[11] - retirar-se");
 			printf("\n= Selecao: ");
@@ -79,12 +68,13 @@ void main(void){
 		/*printf("\n%d\n", cin);*/
 		switch(cin){
 			case 1: /*-=| Leitura Matriz Memoria / Info. |=-*/
-				printf("\n=| Leitura Matriz Memória | Info. |=\n\n");
+				printf("\n=| Leitura Matriz Memoria | Info. |=\n\n");
 				
 				//int numRows = matMemory.rows, numCols = matMemory.cols;
 				input_matrix(&matMemory);
 				
-				print_matrix(matMemory.values, matMemory.rows, matMemory.cols);
+				puts("#Matriz em memoria = ");
+				print_matrix(&matMemory);
 				
 				puts("\nPressione enter para continuar.");
 				fflush(stdin);
@@ -94,29 +84,54 @@ void main(void){
 			case 2: /*=| Soma Matrizes |=*/
 				{
 					printf("\n=| Soma Matrizes |=\n\n");
-					puts("= Quantidade de matrizes para somar:");
-					int qtdM, ind;
-					scanf("d", &qtdM);
+					printf("#Quantidade de matrizes para somar: ");
+					int qtdM, ind, key=1, keyMemo=1;
+					scanf("%d", &qtdM);
 					
-					matrix resultMat, matSoma[qtd];
+					struct matrix matResult, matSoma[qtdM];
+					matResult.flagHaveValues = 0;
 					
-					printf("\nUsar matriz em memoria [S/N]: ");
-					if(input_SN() == 'N'){
-						for(ind=0; ind<qtdM; ind++){
-							printf("\n= Matriz %i:", ind + 1);
-							input_matrix(&matSoma[ind]);
-							if(ind > 0 && (matSoma[ind].rows != matSoma[ind].rows || matSoma[ind-1].cols != matSoma[ind-1].cols) )
-								puts("\nResultado = Idefinido.");						
+					for(ind=0; ind<qtdM; ind++){
+						printf("\n= Matriz %i:\n", ind + 1);
+						
+						printf("\tUsar matriz em memoria [S/N]: ");
+						if(input_SN()){
+							if(matMemory.flagHaveValues){
+								matSoma[ind] = matMemory; /*this will bee a shallow copy, think there is no problem, think...*/
+								keyMemo = 0;						
+							}
 							else{
-								resultMat();
+								puts("\n\t=> Matriz em memoria nao possui nenhum valor!");
+								key = 0;
+								break;
+							}					
+						}
+						else{
+							if(!ind)
+								input_matrix(matSoma + ind);
+							else{
+								input_matrix(matSoma + ind);
+								if(matSoma[ind].rows != matSoma[ind-1].rows || matSoma[ind].cols != matSoma[ind-1].cols){
+									puts("\nResultado = Idefinido.");
+									key = 0;
+									break;
+								} 
 							}
 						}
-					} 
-					puts("implementar func de multiplicação por escalar e multiplicar matmemory por 2");
+						//print_matrix(&matSoma[ind]);
+					}
 					
+					matResult.rows = matSoma[0].rows;
+					matResult.cols = matSoma[0].cols;
 					
-					free(mat1.values);
-					free(mat2.values);
+					if(key) sum_matrix(qtdM, matSoma[0].rows, matSoma[0].cols, &matSoma, &matResult);
+					puts("\n#Matriz resultado = ");
+					print_matrix(&matResult);
+					
+					if(key && keyMemo){ /*precisa da keymemo pois a atribuição da matriz memoria é uma shallowcopy*/
+						for(ind=0; ind<qtdM; ind++) free(matSoma[ind].values);
+						free(matResult.values);
+					}
 						
 					puts("\nPressione enter para continuar.");
 					fflush(stdin);
@@ -155,7 +170,7 @@ void main(void){
 					if(mat1.cols != mat1.rows) puts("Matriz invalida!");
 					else printf("\n# Determinante = %.4lf", matrix_det(mat1.values, mat1.cols));
 					
-//					puts("Gostaria de salvar a matriz em memória?[S/N]: ");
+//					puts("Gostaria de salvar a matriz em memÃ³ria?[S/N]: ");
 //					if(input_SN) save_in_matMemory(mat1.values);
 	
 					free(mat1.values);
