@@ -3,8 +3,24 @@
 #include <math.h>
 #include <conio.h>
 #include <ctype.h>
-#include "structure.h"
 
+struct matrix{
+	int rows;
+	int cols;
+	int flagHaveValues;
+	int flagSquare;
+	double *values;
+};
+
+double getValueMatrix(struct matrix *mat, int row, int col){
+	int sizeRow = mat->rows;
+	return mat->values[sizeRow*row + col];
+}
+
+void inputValueMatrix(double value, struct matrix *mat, int row, int col){
+	int sizeRow = mat->rows;
+	mat->values[sizeRow*row + col] = value;
+}
 
 int input_matrix(struct matrix *mat){
 	mat->flagHaveValues = 1;
@@ -40,7 +56,7 @@ void print_matrix(struct matrix *mat){
 		for(i=0; i<numRows; i++){
 			printf("| ");
 			for(j=0; j<numCols; j++){
-				printf(" %6.3lf ", *(mat->values + ( i * numCols) + j));
+				printf(" %6.3lf ", getValueMatrix(mat, i, j));
 			}
 			printf("  |");
 			printf("\n\n");
@@ -62,6 +78,10 @@ void sum_matrix(int qtdMatrix, int sizeRows, int sizeCols, struct matrix matValu
 			//printf(" %lf ", matValues[iterMat].values[iterValues]);
 			if(!iterMat) matResult->values[iterValues] = matValues[iterMat].values[iterValues];
 			else matResult->values[iterValues] += matValues[iterMat].values[iterValues];
+			/*
+			if(!iterMat) matResult->values[iterValues] = matValues[iterMat].values[iterValues];
+			else matResult->values[iterValues] += matValues[iterMat].values[iterValues];
+			*/
 		}
 	}
 	matResult->flagHaveValues = 1;
@@ -115,4 +135,3 @@ int input_SN(){
 		else if(ch=='S') return 1;
 	}
 }
-

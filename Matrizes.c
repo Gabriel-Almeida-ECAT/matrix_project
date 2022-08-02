@@ -34,7 +34,7 @@ void main(void){
 			puts("|| MENU SELECAO - Digite a operacao deseja ||\n");
 			puts("[1] - Leitura Matriz Memoria / Info."); /*Mostar a atual matriz salva e perguntar se deseja sobreescrever*/
 			puts("[2] - Soma de Matrizes.");
-			puts("[3] - Multiplicao / Divisao por escalar.");
+			puts("[3] - Multiplicao por escalar.");
 			puts("[4] - Multiplicao de Matrizes.");
 			puts("[5] - Determinante");
 			puts("[6] - Matriz Transposta.");
@@ -128,6 +128,18 @@ void main(void){
 					puts("\n#Matriz resultado = ");
 					print_matrix(&matResult);
 					
+					printf("Salvar a matriz resultado em memoria [S/N]: "); /*criar func disso*/
+					if(input_SN()){
+						matMemory.cols = matResult.cols;
+						matMemory.rows = matResult.rows;
+						int i, j;
+						for(i=0; i<matResult.rows; i++){
+							for(i=0; i<matResult.cols; i++){
+								inputValueMatrix(getValueMatrix(&matResult, i, j), &matMemory, i, j);
+							}
+						}
+					}
+					
 					if(key && keyMemo){ /*precisa da keymemo pois a atribuição da matriz memoria é uma shallowcopy*/
 						for(ind=0; ind<qtdM; ind++) free(matSoma[ind].values);
 						free(matResult.values);
@@ -139,7 +151,7 @@ void main(void){
 				}
 			break;
 //
-//			case 3: /*=|  |=*/
+//			case 3: /*=| Mutiplicação por escalar |=*/
 //				printf("\n=|  |=\n\n");
 //
 //				
